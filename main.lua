@@ -369,12 +369,12 @@ message:reply({embed = embedfunc1(message.author.username,message.avatarURL,adde
             fields = {
                 {
                 name = "Currency:",
-                value = "- !mC = Veiw your currency \n- !uCC = Subtract user currency (Higher roles can do that)\n- !uCAdd = Add user currency (Higher roles can do that)",
+                value = "- !mC = View your currency \n- !uCC = Subtract user currency (Higher roles can do that)\n- !uCAdd = Add user currency (Higher roles can do that)",
                 incline = true
                 },
                 {
                     name = "XP/Levels:",
-                    value = "- !mxp = Veiw your xp \n- !mL = Veiw your level",
+                    value = "- !mxp = View your xp \n- !mL = View your level",
                     incline = true
                 },
                 { name = "Shop Item Shop:",
