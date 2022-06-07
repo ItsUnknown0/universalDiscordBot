@@ -6,6 +6,7 @@ local curencyname = "Credits"
 
 client:on('ready', function()
     client:setGame("blob arena!")
+    client:setStatus("!help for commands!")
 end)
 
 local function embedfunc1(user,avurl,currency,col,addedcurrency,Title)
@@ -146,103 +147,7 @@ message:reply({embed = embedfunc1(message.author.username,message.avatarURL,adde
         local datakey = message.author.id
         file:close()
       --]]
-
-    elseif message.content:sub(1,6) == prefix .. "uCAdd" then -- Give 
-        
-        local words = {}
-        local words2 = {}
-        local addedcurrency
-        local file = io.open('./currency.json',"r")
-        local parse = json.parse(file:read("*a"))
-        local author = message.guild:getMember(message.author.id)
-        local member = message.mentionedUsers.first
-        for w in tostring(message.content):gmatch("%S+") do 
-            table.insert(words,w)
-        end
-
-        for w in tostring(member):gmatch("%S+") do 
-            table.insert(words2,w)
-        end
-
-        if words[3] ~= nil then
-            
-            if author.highestRole.position > message.guild:getMember(member).highestRole.position and member[1] ~= nil then
-                --member = message.guild:getMember(user.id)
-                member =  client:getUser(message.mentionedUsers[1])
-                addedcurrency = tonumber(words[2])
-
-                if parse[words2[2]] then
-                    parse[words2[2]] = parse[words2[2]] + addedcurrency
-                else
-                    parse[words2[2]] = addedcurrency
-                end
-        
-                --message:reply("Currency added: ".. addedcurrency .. "\nTotalCurrency: " .. parse[words2[2]])
-
-                message:reply({embed = {
-                    title = "Total Credit: " .. parse[datakey],
-                    author = {
-                        name = message.mentionedUsers.first.username,
-                        icon_url = message.mentionedUsers.first.avatarURL
-                    },
-                    fields = {
-                        {
-                        name = "Added ".. curencyname.. ":",
-                        value = addedcurrency,
-                        incline = false
-                        }
-                    },
-                    footer = {
-                        text = "BLOB-E"
-                    },
-                    color = 65280}})
-        
-                local file = io.open('./currency.json',"w")
-                file:write(json.stringify(parse))
-                file:close()
-            else
-                message:reply("no perms 💀")
-            end
-        else
-            message:reply("**Please add a 3rd parameter** *(Currency amount)*!")
-        end
-    elseif message.content:sub(1,4) == prefix .. "mxp" then -- XP stuff
-        local file = io.open('./xp.json',"r")
-        local parse = json.parse(file:read("*a"))
-        local datakey = message.author.id
-        file:close()
-
-        if parse[datakey] then
-            message:reply(
-                {embed = {
-                    title = "Total XP: ".. parse[datakey],
-                    author = {
-                        name = author.username,
-                        icon_url = author.avatarURL
-                    },
-                    footer = {
-                        text = "BLOB-E"
-                    },
-                    color = 12956415
-                }}
-            )
-        
-        else
-            message:reply(
-                {embed = {
-                    title = "Total XP: ".. "0",
-                    author = {
-                        name = author.username,
-                        icon_url = author.avatarURL
-                    },
-                    footer = {
-                        text = "BLOB-E"
-                    },
-                    color = 12956415
-                }}
-            )
-        end
-        elseif message.content:sub(1,4) == prefix .. "uCC" then -- Subtract currency
+    elseif message.content:sub(1,4) == prefix .. "uCC" then -- Subtract currency
         local words = {}
         local words2 = {}
         local subbedcurrency
@@ -301,6 +206,103 @@ message:reply({embed = embedfunc1(message.author.username,message.avatarURL,adde
         else
             message:reply("**Please add a 2nd parameter** *(user)* or 3rd parameter (currency amount)!") 
         end
+
+    elseif message.content:sub(1,6) == prefix .. "uCAdd" then -- Give 
+        
+        local words = {}
+        local words2 = {}
+        local addedcurrency
+        local file = io.open('./currency.json',"r")
+        local parse = json.parse(file:read("*a"))
+        local author = message.guild:getMember(message.author.id)
+        local member = message.mentionedUsers.first
+        for w in tostring(message.content):gmatch("%S+") do 
+            table.insert(words,w)
+        end
+
+        for w in tostring(member):gmatch("%S+") do 
+            table.insert(words2,w)
+        end
+
+        if words[3] ~= nil then
+            
+            if author.highestRole.position > message.guild:getMember(member).highestRole.position and member[1] ~= nil then
+                --member = message.guild:getMember(user.id)
+                member =  client:getUser(message.mentionedUsers[1])
+                addedcurrency = tonumber(words[2])
+
+                if parse[words2[2]] then
+                    parse[words2[2]] = parse[words2[2]] + addedcurrency
+                else
+                    parse[words2[2]] = addedcurrency
+                end
+        
+                --message:reply("Currency added: ".. addedcurrency .. "\nTotalCurrency: " .. parse[words2[2]])
+
+                message:reply({embed = {
+                    title = "Total Credit: " .. parse[datakey],
+                    author = {
+                        name = message.mentionedUsers.first.username,
+                        icon_url = message.mentionedUsers.first.avatarURL
+                    },
+                    fields = {
+                        {
+                        name = "Added ".. curencyname.. ":",
+                        value = addedcurrency,
+                        incline = false
+                        }
+                    },
+                    footer = {
+                        text = "BLOB-E"
+                    },
+                    color = 65280}})
+        
+                local file = io.open('./currency.json',"w")
+                file:write(json.stringify(parse))
+                file:close()
+            else
+                message:reply("no perms 💀")
+            end
+        else
+            message:reply("**Please add a 2nd parameter** *(user)* or 3rd parameter (currency amount)!")
+        end
+    elseif message.content:sub(1,4) == prefix .. "mxp" then -- XP stuff
+        local file = io.open('./xp.json',"r")
+        local parse = json.parse(file:read("*a"))
+        local datakey = message.author.id
+        file:close()
+
+        if parse[datakey] then
+            message:reply(
+                {embed = {
+                    title = "Total XP: ".. parse[datakey],
+                    author = {
+                        name = author.username,
+                        icon_url = author.avatarURL
+                    },
+                    footer = {
+                        text = "BLOB-E"
+                    },
+                    color = 12956415
+                }}
+            )
+        
+        else
+            message:reply(
+                {embed = {
+                    title = "Total XP: ".. "0",
+                    author = {
+                        name = author.username,
+                        icon_url = author.avatarURL
+                    },
+                    footer = {
+                        text = "BLOB-E"
+                    },
+                    color = 12956415
+                }}
+            )
+        end
+
     elseif message.content:sub(1,3) == prefix .. "mL" then -- Level
         local file = io.open('./levels.json',"r")
         local parse = json.parse(file:read("*a"))
@@ -337,6 +339,53 @@ message:reply({embed = embedfunc1(message.author.username,message.avatarURL,adde
                 }}
             )
         end
+    elseif message.content:sub(1,5) == prefix .. "bmod" then -- Shop
+
+        local price = 2400
+        local file = io.open('./currency.json',"r")
+        local parse = json.parse(file:read("*a"))
+
+        file:close()
+
+        local author = message.author
+        local datakey = author.id
+
+        if parse[datakey] >= price then
+            parse[datakey] = parse[datakey] - price
+            local user = message.guild:getMember(datakey)
+            user:addRole("983606547483615243") -- Role ID
+        end
+        local file = io.open('./currency.json',"w")
+        file:write(json.stringify(parse))
+        file:close()
+
+    elseif message.content:sub(1,5) == prefix .. "help" then -- Help
+        message:reply({embed = {
+            title = "Command List",
+            author = {
+                name = client.user.username,
+                icon_url = client.user.avatarURL
+            },
+            fields = {
+                {
+                name = "Currency:",
+                value = "- !mC = Veiw your currency \n- !uCC = Subtract user currency (Higher roles can do that)\n- !uCAdd = Add user currency (Higher roles can do that)",
+                incline = true
+                },
+                {
+                    name = "XP/Levels:",
+                    value = "- !mxp = Veiw your xp \n- !mL = Veiw your level",
+                    incline = true
+                },
+                { name = "Shop Item Shop:",
+                value = "- !bmod = Buy Mod for 2400 credits \n- !customr1 = Buy a custom role for 100 credits",
+                incline = true
+                }
+            },
+            footer = {
+                text = "BLOB-E Help"
+            },
+            color = 16711680}})
     end
 end)
 
